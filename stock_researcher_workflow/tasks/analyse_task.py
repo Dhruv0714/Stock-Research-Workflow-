@@ -9,7 +9,7 @@ get_stock_analysis = Task(
         "is performing today and highlight any key observations from the data."
     ),
     expected_output=(
-        "A clear, bullet-pointed summary of:\n"
+        "A clear, bullet-pointed detailed analysis of:\n"
         "- Current stock price\n"
         "- Daily price change and percentage\n"
         "- Volume and volatility\n"

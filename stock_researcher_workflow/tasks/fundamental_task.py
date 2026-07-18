@@ -14,7 +14,7 @@ get_fundamentals_analysis = Task(
         "- Revenue, profit, and margin trends\n"
         "- Balance sheet health (debt, cash position)\n"
         "- Key valuation ratios (P/E, EPS, ROE)\n"
-        "- A one-line takeaway on fundamental strength"
+        "- A detailed takeaway on fundamental strength"
     ),
     agent=fundamentals_agent
 )

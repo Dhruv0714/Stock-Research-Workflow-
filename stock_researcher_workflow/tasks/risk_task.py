@@ -9,11 +9,11 @@ get_risk_assessment = Task(
         "volatility, and maximum drawdown over the past year."
     ),
     expected_output=(
-        "A clear, bullet-pointed summary of:\n"
+        "A clear, bullet-pointed detailed analysis of:\n"
         "- Beta relative to the S&P 500\n"
         "- Annualized volatility\n"
         "- Maximum drawdown over the past year\n"
-        "- A one-line takeaway on overall risk level"
+        "- A detailed takeaway on overall risk level"
     ),
     agent=risk_agent
 )
