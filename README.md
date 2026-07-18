@@ -87,43 +87,234 @@ The four data-gathering agents run first and can be coordinated by a manager age
     │   └── report_tools.py
 ```
 
-## Install and run (no clone needed)
+---
 
-Requires [uv](https://docs.astral.sh/uv/getting-started/installation/).
+## Setup
 
-Run once without installing anything permanently:
+### Prerequisites
+
+Before installing, ensure you have:
+
+- Python **3.12.x** (recommended)
+- Git
+- `uv`
+
+Verify your installation:
 
 ```bash
-uvx --from git+https://github.com/yourname/stock-researcher-workflow stock-researcher AAPL
+python --version
+uv --version
+git --version
 ```
 
-Or install it once as a permanent command:
+If Python 3.12 is not installed:
 
 ```bash
-uv tool install git+https://github.com/yourname/stock-researcher-workflow
-stock-researcher AAPL
+uv python install 3.12
+```
+
+Verify:
+
+```bash
+uv python list
+```
+
+### Installation
+
+Install directly from GitHub using `uv`:
+
+#### Windows
+
+```cmd
+uv tool install --python 3.12 git+https://github.com/Dhruv0714/Stock-Research-Workflow-
+```
+
+#### macOS / Linux
+
+```bash
+uv tool install --python 3.12 git+https://github.com/Dhruv0714/Stock-Research-Workflow-
+```
+
+Verify the installation:
+
+```bash
+uv tool list
+```
+
+Expected output:
+
+```
+stock-researcher-workflow
+└── stock-researcher
 ```
 
 ### API keys
 
-Never pass keys directly on the command line or export them into your shell — the tool resolves them safely in this order:
+The application requires:
 
-1. **A `.env` file** in the directory where you run the command:
-   ```
-   GEMINI_API_KEY=your-gemini-api-key
-   SERPER_API_KEY=your-serper-api-key
-   ```
-2. **A hidden interactive prompt** — if no `.env` file is found, the tool asks for each key at runtime. Input is masked as you type and is never written to disk or shell history.
+- Google Gemini API Key
+- Serper API Key
 
-This means first-time users can just run the command with no setup step at all — they'll be prompted for keys the first time, and can drop a `.env` file later if they don't want to be asked again.
+#### Gemini API Key
+
+1. Visit: https://aistudio.google.com/app/apikey
+2. Create a new API key.
+3. Copy it for the next step.
+
+#### Serper API Key
+
+1. Visit: https://serper.dev
+2. Sign in.
+3. Generate an API key.
+
+### Environment variables
+
+Create a `.env` file in your project directory:
+
+```env
+GEMINI_API_KEY=
+GEMINI_API_MODEL=gemini/gemini-3.1-flash-lite
+SERPER_API_KEY=
+```
+
+Example:
+
+```env
+GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXX
+GEMINI_API_MODEL=gemini/gemini-3.1-flash-lite
+SERPER_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
+```
+or set env variables from the terminal
+```
+set GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXX
+set GEMINI_API_MODEL=gemini/gemini-3.1-flash-lite
+set SERPER_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+> **Note**
+>
+> `GEMINI_API_MODEL` should normally remain:
+>
+> ```text
+> gemini/gemini-3.1-flash-lite
+> ```
+
+### Running the application
+
+Analyze Apple:
+
+```bash
+stock-researcher
+```
+
+### Example output
+
+The workflow generates a report containing:
+
+- Company Overview
+- Financial Fundamentals
+- Recent News
+- Market Sentiment
+- Risks
+- Growth Opportunities
+- Investment Summary
+
+### Updating
+
+To install the latest version:
+
+```bash
+uv tool uninstall stock-researcher-workflow
+
+uv tool install --python 3.12 git+https://github.com/Dhruv0714/Stock-Research-Workflow-
+```
+
+### Uninstall
+
+```bash
+uv tool uninstall stock-researcher-workflow
+```
+
+### Troubleshooting
+
+**`KeyError: 'GEMINI_API_KEY'`**
+
+Your `.env` file is missing:
+
+```env
+GEMINI_API_KEY=YOUR_API_KEY
+```
+
+**`KeyError: 'GEMINI_API_MODEL'`**
+
+Your `.env` file is missing:
+
+```env
+GEMINI_API_MODEL=gemini/gemini-3.1-flash-lite
+```
+
+**`KeyError: 'SERPER_API_KEY'`**
+
+Your `.env` file is missing:
+
+```env
+SERPER_API_KEY=YOUR_SERPER_API_KEY
+```
+
+**ChromaDB / Pydantic / Python 3.14 error**
+
+If you encounter errors similar to:
+
+```
+Core Pydantic V1 functionality isn't compatible with Python 3.14
+```
+
+or
+
+```
+pydantic.v1.errors.ConfigError
+```
+
+Reinstall the tool using Python **3.12**:
+
+```bash
+uv tool uninstall stock-researcher-workflow
+
+uv tool install --python 3.12 git+https://github.com/Dhruv0714/Stock-Research-Workflow-
+```
+
+**Verify installation**
+
+```bash
+python --version
+
+uv --version
+
+uv tool list
+```
+
+Expected:
+
+```
+Python 3.12.x
+```
+
+and
+
+```
+stock-researcher-workflow
+└── stock-researcher
+```
+
+---
 
 ## Local development
 
 Clone the repo and install with `uv` in editable mode:
 
 ```bash
-git clone https://github.com/yourname/stock-researcher-workflow
-cd stock-researcher-workflow
+git clone https://github.com/Dhruv0714/Stock-Research-Workflow-
+cd Stock-Research-Workflow-
 uv sync
 uv run stock-researcher AAPL
 ```
@@ -133,3 +324,18 @@ uv run stock-researcher AAPL
 - Task execution order and data flow are enforced through each task's `context` dependencies, so agents downstream always receive the analysis they depend on.
 - The manager agent and hierarchical process are optional. A single sequential crew with no manager produces the same report with less overhead, and is the recommended default unless you specifically need dynamic delegation across the research agents.
 - All recommendations produced by the trader agent are generated from publicly available data and LLM reasoning. They are not backtested trading signals and should not be used as financial advice.
+
+## Tech stack
+
+- CrewAI
+- Google Gemini
+- Serper
+- Python
+- uv
+- yFinance
+
+## Author
+
+**Dhruv Shah**
+
+GitHub: https://github.com/Dhruv0714
