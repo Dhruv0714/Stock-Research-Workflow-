@@ -335,7 +335,5 @@ uv run stock-researcher AAPL
 - yFinance
 
 ## Author
-
 **Dhruv Shah**
-
 GitHub: https://github.com/Dhruv0714
