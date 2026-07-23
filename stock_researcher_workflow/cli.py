@@ -1,18 +1,22 @@
 import os
+import sys
+import io
+import logging
 from getpass import getpass
 
 import yfinance as yf
 from dotenv import load_dotenv
-from stock_researcher_workflow.crew import stock_crew
+from rich.panel import Panel
+
+from stock_researcher_workflow.crew import build_crew, TASK_LABELS
+from stock_researcher_workflow.console_ui import WorkflowDashboard, console
+
+# Quiet third-party libs that print outside Rich's control
+logging.getLogger("LiteLLM").setLevel(logging.ERROR)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 def get_key(env_name: str, prompt: str) -> str:
-    """
-    Resolve an API key in this order:
-      1. Already set as a real environment variable
-      2. Loaded from a .env file in the current working directory
-      3. Prompted interactively (hidden input, not echoed, not stored)
-    """
     value = os.getenv(env_name)
     if value:
         return value
@@ -29,9 +33,18 @@ def is_valid_stock(symbol: str) -> bool:
 
 
 def run(stock: str):
+    dashboard = WorkflowDashboard(stock, TASK_LABELS)
+    crew = build_crew(dashboard)
 
-    result = stock_crew.kickoff(inputs={"stock": stock})
-    print(result)
+    dashboard.start()
+    dashboard.start_task(TASK_LABELS[0])
+
+    result = crew.kickoff(inputs={"stock": stock})  # no stdout redirect for now
+
+    dashboard.stop()
+    console.print(
+        Panel(str(result), title=f"Final Report · {stock}", border_style="green")
+    )
 
 
 def main():
@@ -49,10 +62,8 @@ def main():
 
     while True:
         stock = input("Enter stock ticker (e.g. AAPL, TSLA, NVDA): ").strip().upper()
-
         if is_valid_stock(stock):
             break
-
         print(f"\n'{stock}' is not a valid stock ticker. Please try again.\n")
 
     run(stock)

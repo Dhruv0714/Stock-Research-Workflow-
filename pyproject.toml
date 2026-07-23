@@ -8,6 +8,7 @@ dependencies = [
     "crewai-tools==1.15.4",
     "python-dotenv==1.2.2",
     "yfinance>=0.2.70",
+    "mplfinance>=0.12.10b0"
 ]
 
 [project.scripts]

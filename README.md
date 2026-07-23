@@ -168,36 +168,16 @@ The application requires:
 3. Generate an API key.
 
 ### Environment variables
-
-Create a `.env` file in your project directory:
-
-```env
-GEMINI_API_KEY=
-GEMINI_API_MODEL=gemini/gemini-3.1-flash-lite
-SERPER_API_KEY=
-```
-
-Example:
-
-```env
-GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXX
-GEMINI_API_MODEL=gemini/gemini-3.1-flash-lite
-SERPER_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
-```
-or set env variables from the terminal
+Set environment variables from the terminal
 ```
 set GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXX
 set GEMINI_API_MODEL=gemini/gemini-3.1-flash-lite
 set SERPER_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
-> **Note**
->
-> `GEMINI_API_MODEL` should normally remain:
->
-> ```text
-> gemini/gemini-3.1-flash-lite
-> ```
+> **Note** : 
+>`GEMINI_API_MODEL` should normally be gemini/gemini-3.1-flash-lite or you can change it 
+
 
 ### Running the application
 
@@ -316,7 +296,7 @@ Clone the repo and install with `uv` in editable mode:
 git clone https://github.com/Dhruv0714/Stock-Research-Workflow-
 cd Stock-Research-Workflow-
 uv sync
-uv run stock-researcher AAPL
+uv run stock-researcher
 ```
 
 ## Notes
